@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git --version)",
+      "Bash(claude --version)",
+      "Bash(flutter --version)",
+      "Bash(flutter doctor *)",
+      "Bash(powershell -NoProfile -Command \"Get-Content -Path 'C:\\\\Users\\\\hankw\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--myapp\\\\cd05ff8e-1de0-417b-a0ef-d0f2fa593e48\\\\tasks\\\\b5d0q51o5.output' -Wait -Tail 0 | Select-String -Pattern 'Flutter run key commands|lost connection|Exception|Error|error:|BUILD FAILED|Application finished|Installing build'\")",
+      "Bash(git config *)"
+    ]
+  }
+}
