@@ -12,6 +12,8 @@ class IdeaFormScreen extends StatefulWidget {
 }
 
 class _IdeaFormScreenState extends State<IdeaFormScreen> {
+  static const _accentColor = Color(0xFF0080F7);
+
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _titleController;
   late final TextEditingController _contentController;
@@ -34,7 +36,7 @@ class _IdeaFormScreenState extends State<IdeaFormScreen> {
     super.dispose();
   }
 
-  void _save() {
+  Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
 
     final now = DateTime.now();
@@ -44,7 +46,42 @@ class _IdeaFormScreenState extends State<IdeaFormScreen> {
       content: _contentController.text.trim(),
     );
 
+    await _showSavedDialog();
+    if (!mounted) return;
     Navigator.of(context).pop(result);
+  }
+
+  Future<void> _showSavedDialog() {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => PopScope(
+        canPop: false,
+        child: AlertDialog(
+          icon: const Icon(
+            Icons.check_circle,
+            color: Color(0xFF2E7D32),
+            size: 48,
+          ),
+          content: const Text(
+            '저장되었습니다!',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('확인', style: TextStyle(fontSize: 16)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -55,7 +92,7 @@ class _IdeaFormScreenState extends State<IdeaFormScreen> {
         actions: [
           IconButton(
             onPressed: _save,
-            icon: const Icon(Icons.check),
+            icon: const Icon(Icons.check, color: _accentColor),
             tooltip: '저장',
           ),
         ],
@@ -69,7 +106,15 @@ class _IdeaFormScreenState extends State<IdeaFormScreen> {
               controller: _titleController,
               decoration: const InputDecoration(
                 labelText: '제목',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: _accentColor),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: _accentColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: _accentColor, width: 2),
+                ),
               ),
               textInputAction: TextInputAction.next,
               validator: (value) {
@@ -84,7 +129,15 @@ class _IdeaFormScreenState extends State<IdeaFormScreen> {
               controller: _contentController,
               decoration: const InputDecoration(
                 labelText: '내용',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: _accentColor),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: _accentColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: _accentColor, width: 2),
+                ),
                 alignLabelWithHint: true,
               ),
               minLines: 6,
@@ -98,6 +151,33 @@ class _IdeaFormScreenState extends State<IdeaFormScreen> {
               },
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              OutlinedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Theme.of(context).colorScheme.error,
+                  side: BorderSide(color: Theme.of(context).colorScheme.error),
+                ),
+                child: const Text('이전'),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                onPressed: _save,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _accentColor,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('저장'),
+              ),
+            ],
+          ),
         ),
       ),
     );

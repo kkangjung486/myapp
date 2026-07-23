@@ -69,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
             child: const Text('삭제'),
           ),
         ],
@@ -166,6 +167,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       tooltip: '즐겨찾기',
                     ),
                     onTap: () => _openEditScreen(idea),
+                    onLongPress: () async {
+                      final confirmed = await _confirmDelete(idea);
+                      if (confirmed) await _deleteIdea(idea);
+                    },
                   ),
                 );
               },

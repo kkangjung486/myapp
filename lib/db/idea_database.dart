@@ -59,6 +59,11 @@ class IdeaDatabase {
     return db.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 
+  Future<int> deleteAllIdeas() async {
+    final db = await database;
+    return db.delete(table);
+  }
+
   Future<List<Idea>> fetchAllIdeas() async {
     final db = await database;
     final maps = await db.query(table, orderBy: 'createdAt DESC');
