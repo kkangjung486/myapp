@@ -1,0 +1,13 @@
+# KCFM 기업 현금흐름 진단 — 필수 패키지
+streamlit>=1.50
+pymupdf>=1.24
+pdfplumber>=0.11
+pandas>=2.0
+openpyxl>=3.1
+plotly>=5.20
+reportlab>=4.0        # 샘플 PDF 생성용
+pytest>=8.0           # 테스트용
+
+# (선택) 스캔 PDF OCR — Tesseract 프로그램(한국어 kor 언어팩)도 별도 설치해야 합니다.
+# pytesseract>=0.3
+# pillow>=10
